@@ -13,7 +13,7 @@ exports.addToCart = async(req, res) => {
 
         let cart = await Cart.findOne({ user: req.user.id });
         if (!cart) {
-            cart = new cart({ user: req.user.id, items: [], totalPrice: 0 })
+            cart = new Cart({ user: req.user.id, items: [], totalPrice: 0 });
         }
 
         const existingItem = cart.items.find(

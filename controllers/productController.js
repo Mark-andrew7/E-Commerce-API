@@ -41,8 +41,8 @@ exports.getProducts = async(req, res) => {
         if (category) query.category = category;
         if (price_min || price_max){
             query.price = {}
-            if (price_min) query.price_min.$gte = Number(price_min);
-            if (price_max) query.price_max.$lte = Number(price_max);
+            if (price_min) query.price.$gte = Number(price_min);
+            if (price_max) query.price.$lte = Number(price_max);
         }
 
         const products = await Product.find(query);

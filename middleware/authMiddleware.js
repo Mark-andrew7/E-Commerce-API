@@ -6,9 +6,9 @@ exports.isAuthenticated = async(req, res, next) => {
         const token = req.headers.authorization?.split(' ')[1];
         if (!token) return res.status(401).json({ succes: false, message: 'Unauthorized access' })
         
-        const decoded = jwt.verify(token, Process.env.JWT_SECRET);
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
         req.user = await User.findById(decoded.id);
-        if (!req.user) return res.status(401).json({ success:false, message: 'Unautthorized access' })
+        if (!req.user) return res.status(401).json({ success:false, message: 'Unauthorized access' })
 
         next();
 
@@ -19,7 +19,7 @@ exports.isAuthenticated = async(req, res, next) => {
 
 
 exports.isAdmin = async(req, res, next) => {
-    if(!req.user || req.user.role || admin) {
+    if(!req.user || req.user.role !== admin) {
         return res.status(403).json({ success: false, message: 'Access denied' });
     }
     next()

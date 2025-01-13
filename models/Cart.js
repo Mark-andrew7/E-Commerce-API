@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const User = require("./User");
 
 const CartItemSchema = new mongoose.Schema({
     product: {
@@ -32,4 +33,10 @@ const CartSchema = new mongoose.Schema({
     }
 });
 
-Module.exports = mongoose.model('Cart', CartSchema)
+
+CartSchema.methods.updateTotalPrice = function() {
+    this.totalPrice = this.items.reduce((total, item) => total + item.product.price * item.quantity, 0);
+    return this.save();
+}
+
+module.exports = mongoose.model('Cart', CartSchema)
